@@ -175,9 +175,10 @@ function generateSingleCar(index) {
 
   searchOperation.addEventListener("click", function () {
     const value = document.getElementById("searchValue").value;
+    const optionVal = document.getElementById("selectType").value;
     if (!value) return;
     const result = DATA.filter((car) => {
-      return car.type.toLowerCase() === value.toLowerCase();
+      return car[optionVal].toString().toLowerCase() === value.toLowerCase();
     });
     if (DOM.whatToDraw === "table") {
       draw(result, DOM.tableData, "table");
@@ -367,6 +368,7 @@ function getSearchOptions() {
   function _createOpt(obj) {
     const option = document.createElement("option");
     option.innerText = obj.label;
+    option.value = obj.value;
     return option;
   }
 }
