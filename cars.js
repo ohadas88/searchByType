@@ -219,6 +219,7 @@ function clearDOM() {
 
   Object.keys(DOM).forEach((keyInDom) => {
     if (typeof DOM[keyInDom] !== "object") return;
+    if (keyInDom === "searchOptions") return;
     DOM[keyInDom].innerHTML = "";
   });
 }
