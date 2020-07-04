@@ -26,36 +26,42 @@ const headers = [
       label: "Color",
       isVisible: true,
       isConstant: true,
+      isSearchable: true,
     },
     {
       value: "type",
       label: "Type",
       isVisible: false,
       isConstant: false,
+      isSearchable: true,
     },
     {
       value: "doors",
       label: "Doors",
       isVisible: true,
       isConstant: false,
+      isSearchable: true,
     },
     {
       value: "isSunRoof",
       label: "Sun Roof",
       isVisible: false,
       isConstant: false,
+      isSearchable: false,
     },
     {
       value: "isAWD",
       label: "4 X 4",
       isVisible: false,
       isConstant: false,
+      isSearchable: false,
     },
     {
       value: "year",
       label: "Year Created",
       isVisible: true,
       isConstant: false,
+      isSearchable: false,
     },
   ],
 ];
@@ -346,4 +352,7 @@ function getRowItem(carData) {
 
 function getSearchOptions() {
   // return <select> [ <option></option>,<option></option>,<option></option>,<option></option> ] </select>
+  const headersObj = headers[0];
+  const searchableObj = headersObj.filter((obj) => obj.isSearchable === true);
+  console.log(searchableObj);
 }
