@@ -26,36 +26,42 @@ const headers = [
       label: "Color",
       isVisible: true,
       isConstant: true,
+      isSearchable: true,
     },
     {
       value: "type",
       label: "Type",
       isVisible: false,
       isConstant: false,
+      isSearchable: true,
     },
     {
       value: "doors",
       label: "Doors",
       isVisible: true,
       isConstant: false,
+      isSearchable: true,
     },
     {
       value: "isSunRoof",
       label: "Sun Roof",
       isVisible: false,
       isConstant: false,
+      isSearchable: false,
     },
     {
       value: "isAWD",
       label: "4 X 4",
       isVisible: false,
       isConstant: false,
+      isSearchable: false,
     },
     {
       value: "year",
       label: "Year Created",
       isVisible: true,
       isConstant: false,
+      isSearchable: false,
     },
   ],
 ];
@@ -126,7 +132,7 @@ function generateSingleCar(index) {
   DOM.whatToDraw = "list";
 
   draw(DATA, DOM.listData, DOM.whatToDraw);
-  draw(DATA, DOM.searchOptions, "searchOptions");
+  draw(headers, DOM.searchOptions, "searchOptions");
 
   const listViewButton = document.getElementById("listView");
   const cardViewButton = document.getElementById("cardView");
@@ -169,9 +175,10 @@ function generateSingleCar(index) {
 
   searchOperation.addEventListener("click", function () {
     const value = document.getElementById("searchValue").value;
+    const optionVal = document.getElementById("selectType").value;
     if (!value) return;
     const result = DATA.filter((car) => {
-      return car.type.toLowerCase() === value.toLowerCase();
+      return car[optionVal].toString().toLowerCase() === value.toLowerCase();
     });
     if (DOM.whatToDraw === "table") {
       draw(result, DOM.tableData, "table");
@@ -213,6 +220,7 @@ function clearDOM() {
 
   Object.keys(DOM).forEach((keyInDom) => {
     if (typeof DOM[keyInDom] !== "object") return;
+    if (keyInDom === "searchOptions") return;
     DOM[keyInDom].innerHTML = "";
   });
 }
@@ -346,4 +354,21 @@ function getRowItem(carData) {
 
 function getSearchOptions() {
   // return <select> [ <option></option>,<option></option>,<option></option>,<option></option> ] </select>
+  const headersObj = headers[0];
+  const searchableObj = headersObj
+    .filter((obj) => obj.isSearchable === true)
+    .map((obj) => _createOpt(obj));
+
+  const selectContainer = document.createElement("select");
+  selectContainer.classList.add("form-control");
+  selectContainer.id = "selectType";
+  selectContainer.append(...searchableObj);
+  return selectContainer;
+
+  function _createOpt(obj) {
+    const option = document.createElement("option");
+    option.innerText = obj.label;
+    option.value = obj.value;
+    return option;
+  }
 }
