@@ -132,7 +132,7 @@ function generateSingleCar(index) {
   DOM.whatToDraw = "list";
 
   draw(DATA, DOM.listData, DOM.whatToDraw);
-  draw(DATA, DOM.searchOptions, "searchOptions");
+  draw(headers, DOM.searchOptions, "searchOptions");
 
   const listViewButton = document.getElementById("listView");
   const cardViewButton = document.getElementById("cardView");
@@ -353,6 +353,19 @@ function getRowItem(carData) {
 function getSearchOptions() {
   // return <select> [ <option></option>,<option></option>,<option></option>,<option></option> ] </select>
   const headersObj = headers[0];
-  const searchableObj = headersObj.filter((obj) => obj.isSearchable === true);
-  console.log(searchableObj);
+  const searchableObj = headersObj
+    .filter((obj) => obj.isSearchable === true)
+    .map((obj) => _createOpt(obj));
+
+  const selectContainer = document.createElement("select");
+  selectContainer.classList.add("form-control");
+  selectContainer.id = "selectType";
+  selectContainer.append(...searchableObj);
+  return selectContainer;
+
+  function _createOpt(obj) {
+    const option = document.createElement("option");
+    option.innerText = obj.label;
+    return option;
+  }
 }
